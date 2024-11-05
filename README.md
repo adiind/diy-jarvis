@@ -54,7 +54,6 @@ Reset Wires | Easy Access | 2x insulated wires
    ```
    12V DC → Maixduino barrel jack
    GND → Common ground bus
-   3.3V → Sensor power
    ```
 
 2. **Sensor Wiring**
@@ -212,48 +211,6 @@ mqtt:
       state_topic: "home-assistant/voice-control/light/state"
       unique_id: "voice-control-light"
       icon: "mdi:lightbulb"
-
-# Automations
-automation:
-  - alias: "Alfred Mode Activated"
-    trigger:
-      platform: mqtt
-      topic: "home-assistant/voice-control/alfred/state"
-      payload: "ON"
-    action:
-      - service: notify.notify
-        data:
-          message: "Alfred Mode activated"
-
-  - alias: "Cooking Mode Activated"
-    trigger:
-      platform: mqtt
-      topic: "home-assistant/voice-control/cooking/state"
-      payload: "ON"
-    action:
-      - service: notify.notify
-        data:
-          message: "Cooking Mode activated"
-
-  - alias: "Goodnight Mode Activated"
-    trigger:
-      platform: mqtt
-      topic: "home-assistant/voice-control/goodnight/state"
-      payload: "ON"
-    action:
-      - service: notify.notify
-        data:
-          message: "Goodnight Mode activated"
-
-  - alias: "Good Morning Mode Activated"
-    trigger:
-      platform: mqtt
-      topic: "home-assistant/voice-control/goodmorning/state"
-      payload: "ON"
-    action:
-      - service: notify.notify
-        data:
-          message: "Good Morning Mode activated"
 ```
 
 ## 🎯 Usage Guide
@@ -282,14 +239,6 @@ Motion detection issues | Motion LED | Adjust PIR sensitivity
 No MQTT connection | Network LED | Check Wi-Fi settings
 Light bars unresponsive | WLED status | Verify ESP8266 connection
 Reset not working | Reset wires | Check wire connections
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create feature branch (`git checkout -b feature/Enhancement`)
-3. Commit changes (`git commit -m 'Add Enhancement'`)
-4. Push branch (`git push origin feature/Enhancement`)
-5. Open Pull Request
 
 ## 📄 License
 
