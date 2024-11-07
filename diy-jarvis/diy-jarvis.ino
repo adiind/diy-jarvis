@@ -1,4 +1,3 @@
-
 #include "WiFiEsp.h"
 #include <PubSubClient.h>
 #include "Maix_Speech_Recognition.h"
@@ -353,7 +352,7 @@ void handleVoiceCommand(int result) {
             Serial.println("New State: " + String(alfredState ? "ON" : "OFF"));
             break;
             
-        case 2:  // bye_bye_jarvis
+        case 2:  // bye_bye_jarvis_jarvis
             systemActive = false;
             publishState(system_state_topic, false);
             digitalWrite(LED_SYSTEM, LOW);
@@ -451,20 +450,20 @@ void setup() {
     Serial.println("\nLoading voice models...");
     
     Serial.println("Loading Alfred commands...");
-    rec.addVoiceModel(0, 0, alfred_lets_go_0, fram_num_alfred_lets_go_0);
-    rec.addVoiceModel(0, 1, alfred_lets_go_1, fram_num_alfred_lets_go_1);
-    rec.addVoiceModel(0, 2, alfred_lets_go_2, fram_num_alfred_lets_go_2);
-    rec.addVoiceModel(0, 3, alfred_lets_go_3, fram_num_alfred_lets_go_3);
-    rec.addVoiceModel(0, 4, alfred_lets_go_4, fram_num_alfred_lets_go_4);
-    rec.addVoiceModel(0, 5, alfred_lets_go_5, fram_num_alfred_lets_go_5);
+    rec.addVoiceModel(0, 0, alfred_batcave_on_0, fram_num_alfred_batcave_on_0);
+    rec.addVoiceModel(0, 1, alfred_batcave_on_1, fram_num_alfred_batcave_on_1);
+    rec.addVoiceModel(0, 2, alfred_batcave_on_2, fram_num_alfred_batcave_on_2);
+    rec.addVoiceModel(0, 3, alfred_batcave_on_3, fram_num_alfred_batcave_on_3);
+    rec.addVoiceModel(0, 4, alfred_batcave_on_4, fram_num_alfred_batcave_on_4);
+    rec.addVoiceModel(0, 5, alfred_batcave_on_5, fram_num_alfred_batcave_on_5);
     
     Serial.println("Loading Bye Bye commands...");
-    rec.addVoiceModel(1, 0, bye_bye_0, fram_num_bye_bye_0);
-    rec.addVoiceModel(1, 1, bye_bye_1, fram_num_bye_bye_1);
-    rec.addVoiceModel(1, 2, bye_bye_2, fram_num_bye_bye_2);
-    rec.addVoiceModel(1, 3, bye_bye_3, fram_num_bye_bye_3);
-    rec.addVoiceModel(1, 4, bye_bye_4, fram_num_bye_bye_4);
-    rec.addVoiceModel(1, 5, bye_bye_5, fram_num_bye_bye_5);
+    rec.addVoiceModel(1, 0, bye_bye_jarvis_0, fram_num_bye_bye_jarvis_0);
+    rec.addVoiceModel(1, 1, bye_bye_jarvis_1, fram_num_bye_bye_jarvis_1);
+    rec.addVoiceModel(1, 2, bye_bye_jarvis_2, fram_num_bye_bye_jarvis_2);
+    rec.addVoiceModel(1, 3, bye_bye_jarvis_3, fram_num_bye_bye_jarvis_3);
+    rec.addVoiceModel(1, 4, bye_bye_jarvis_4, fram_num_bye_bye_jarvis_4);
+    rec.addVoiceModel(1, 5, bye_bye_jarvis_5, fram_num_bye_bye_jarvis_5);
     
     Serial.println("Loading Cooking Mode commands...");
     rec.addVoiceModel(2, 0, cooking_mode_0, fram_num_cooking_mode_0);
@@ -564,4 +563,4 @@ void loop() {
         isListening = false;
         updateSpeechLED();
     }
-}
+} 
