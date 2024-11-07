@@ -265,7 +265,6 @@ get_noise1:
 }
 uint8_t SpeechRecognizer::spch_recg(uint16_t *v_dat, uint32_t *mtch_dis) {
     u16 i;
-    u32 ftr_addr;
     u32 min_avg_dis = dis_max;
     u16 min_comm = 0;
     u32 cur_dis;
@@ -273,6 +272,7 @@ uint8_t SpeechRecognizer::spch_recg(uint16_t *v_dat, uint32_t *mtch_dis) {
     u16 num;
     u16 frame_index;
     uint32_t cycle0, cycle1;
+    unsigned long startTime;
 
     // Arrays for distance averaging
     u32 cmd_distances[MAX_KEYWORDS] = {0};
@@ -283,9 +283,27 @@ get_noise2:
     num = atap_len / frame_mov;
     //wait for finish
     i2s_rec_flag = 0;
+    
+    // Start timing for noise calibration
+    startTime = millis();
+    
     while (1) {
-        while (i2s_rec_flag == 0)
+        // Check for timeout
+        if (millis() - startTime > TIMEOUT_MS) {
+            Serial.println("Timeout: No voice detected for 6 seconds");
+            *mtch_dis = dis_err;
+            return 0;
+        }
+
+        while (i2s_rec_flag == 0) {
+            if (millis() - startTime > TIMEOUT_MS) {
+                Serial.println("Timeout: No voice detected for 6 seconds");
+                *mtch_dis = dis_err;
+                return 0;
+            }
             continue;
+        }
+        
         if (i2s_rec_flag == 1) {
             for (i = 0; i < frame_mov; i++)
                 v_dat[frame_mov * frame_index + i] = rx_buf[i];
@@ -298,6 +316,7 @@ get_noise2:
         if (frame_index >= num)
             break;
     }
+    
     noise_atap(v_dat, atap_len, &atap_arg);
     if (atap_arg.s_thl > 10000) {
         Serial.printf("get noise again...\n");
@@ -305,10 +324,20 @@ get_noise2:
     }
 
     Serial.printf("speaking...\n");
+    
+    // Reset timer for speech detection
+    startTime = millis();
 
     //wait for finish
-    while (i2s_rec_flag == 0)
+    while (i2s_rec_flag == 0) {
+        if (millis() - startTime > TIMEOUT_MS) {
+            Serial.println("Timeout: No voice detected for 6 seconds");
+            *mtch_dis = dis_err;
+            return 0;
+        }
         continue;
+    }
+    
     if (i2s_rec_flag == 1) {
         for (i = 0; i < frame_mov; i++)
             v_dat[i + frame_mov] = rx_buf[i];
@@ -317,9 +346,23 @@ get_noise2:
             v_dat[i + frame_mov] = rx_buf[i + frame_mov];
     }
     i2s_rec_flag = 0;
+    
     while (1) {
-        while (i2s_rec_flag == 0)
+        if (millis() - startTime > TIMEOUT_MS) {
+            Serial.println("Timeout: No voice detected for 6 seconds");
+            *mtch_dis = dis_err;
+            return 0;
+        }
+
+        while (i2s_rec_flag == 0) {
+            if (millis() - startTime > TIMEOUT_MS) {
+                Serial.println("Timeout: No voice detected for 6 seconds");
+                *mtch_dis = dis_err;
+                return 0;
+            }
             continue;
+        }
+        
         if (i2s_rec_flag == 1) {
             for (i = 0; i < frame_mov; i++) {
                 v_dat[i] = v_dat[i + frame_mov];
@@ -340,6 +383,7 @@ get_noise2:
             return 0;
         }
     }
+    
     Serial.printf("vad ok\n");
 
     get_mfcc(&(valid_voice[0]), &ftr, &atap_arg);
@@ -349,14 +393,13 @@ get_noise2:
         return 0;
     }
 
-    
     Serial.printf("mfcc ok\n");
     i = 0;
     cycle0 = read_csr(mcycle);
 
     // Compare with stored models
     for (uint8_t cmd = 0; cmd < MAX_KEYWORDS; cmd++) {
-        if (models_per_command[cmd] == 0) continue;  // Skip commands with no models
+        if (models_per_command[cmd] == 0) continue;
 
         for (uint8_t mdl = 0; mdl < models_per_command[cmd]; mdl++) {
             if (!is_model_valid[cmd][mdl]) continue;
@@ -364,7 +407,6 @@ get_noise2:
             ftr_mdl = (v_ftr_tag *)(&ftr_save[cmd * MAX_MODELS_PER_KEY + mdl]);
             cur_dis = dtw(ftr_mdl, &ftr);
 
-            // Original verbose output
             Serial.printf("no. %d, frm_num = %d, save_mask=%d", 
                         cmd * MAX_MODELS_PER_KEY + mdl + 1, 
                         ftr_mdl->frm_num, 
@@ -395,8 +437,7 @@ get_noise2:
     cycle1 = read_csr(mcycle) - cycle0;
     Serial.printf("[INFO] recg cycle = 0x%08x\n", cycle1);
 
-    // Apply threshold check
-    if (min_avg_dis > 450 || min_avg_dis == dis_max) {
+    if (min_avg_dis > 300 || min_avg_dis == dis_max) {
         *mtch_dis = dis_err;
         Serial.printf("No match found (min avg distance: %d)\n", min_avg_dis);
         return 0;
@@ -404,4 +445,4 @@ get_noise2:
 
     *mtch_dis = min_avg_dis;
     return (u8)min_comm;
-}   
+}

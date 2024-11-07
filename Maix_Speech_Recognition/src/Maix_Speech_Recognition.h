@@ -1,8 +1,8 @@
+// Maix_Speech_Recognition.h
 #ifndef __MAIX_SPEECH_RECOGNITION_H
 #define __MAIX_SPEECH_RECOGNITION_H
 
 #include "Arduino.h"
-
 #include <stdint.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -19,7 +19,6 @@
 #include "util/DTW.h"
 #include "util/flash.h"
 #include "util/ADC.h"
-
 
 class SpeechRecognizer {
 public:
@@ -39,6 +38,7 @@ private:
     // New tracking variables
     static const uint8_t MAX_KEYWORDS = 14;
     static const uint8_t MAX_MODELS_PER_KEY = 6;
+    static const unsigned long TIMEOUT_MS = 6000; // 6 second timeout
     uint8_t models_per_command[MAX_KEYWORDS];  // Track models for each command
     bool is_model_valid[MAX_KEYWORDS][MAX_MODELS_PER_KEY];  // Track valid models
 };
