@@ -7,7 +7,7 @@
 An intelligent IoT device built using the Maixduino Kit for AI + IoT, integrating voice recognition and motion detection to interact with Home Assistant via MQTT. The assistant recognizes specific voice commands, detects motion, and provides visual feedback through four white LEDs and two vertical RGB LED light bars. It updates the state of various entities in Home Assistant, enabling automation and enhancing user interaction with the smart home environment.
 
 <div align="center">
-  <img src="hero-image.png" alt="Smart Home Assistant Setup" width="800"/>
+  <img src="hero-image.jpg" alt="Smart Home Assistant Setup" width="800"/>
 </div>
 
 ## ✨ Key Features
