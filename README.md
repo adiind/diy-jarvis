@@ -254,7 +254,7 @@ This project is licensed under the MIT License - see [LICENSE](LICENSE) file.
 ---
 
 <div align="center">
-  Made with ❤️ by [Your Name]
+  Made with ❤️ by Tinker Verse
   
   ⭐ Star this project
 </div>
