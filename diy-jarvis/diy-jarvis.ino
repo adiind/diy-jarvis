@@ -9,11 +9,11 @@ SoftwareSerial Serial1(6, 7); // RX, TX
 #endif
 
 // WiFi and MQTT settings
-const char* ssid = "Nacho_wifi";
-const char* password = "12345679";
-const char* mqtt_server = "192.168.31.215";
-const char* mqtt_username = "butler";
-const char* mqtt_password = "Buffmeup@1";
+const char* ssid = "Your WIFI";
+const char* password = "***********";
+const char* mqtt_server = "server ip";
+const char* mqtt_username = "username";
+const char* mqtt_password = "password";
 const int mqtt_port = 1883;
 
 // MQTT Topics
