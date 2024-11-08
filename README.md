@@ -1,5 +1,5 @@
 # Voice-Controlled Smart Home Assistant 🎙️🏠
-
+ 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Home Assistant](https://img.shields.io/badge/Home%20Assistant-2023.12-blue.svg)](https://www.home-assistant.io/)
 [![WLED](https://img.shields.io/badge/WLED-v0.14.0-brightgreen.svg)](https://github.com/Aircoookie/WLED)
