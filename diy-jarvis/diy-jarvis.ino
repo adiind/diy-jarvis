@@ -513,6 +513,22 @@ void setup() {
     rec.addVoiceModel(7, 4, wake_up_jarvis_4, fram_num_wake_up_jarvis_4);
     rec.addVoiceModel(7, 5, wake_up_jarvis_5, fram_num_wake_up_jarvis_5);
     
+    Serial.println("Loading Clap commands...");
+    rec.addVoiceModel(8, 0, clap_clap_0, fram_num_clap_clap_0);
+    rec.addVoiceModel(8, 1, clap_clap_1, fram_num_clap_clap_1);
+    rec.addVoiceModel(8, 2, clap_clap_2, fram_num_clap_clap_2);
+    rec.addVoiceModel(8, 3, clap_clap_3, fram_num_clap_clap_3);
+    rec.addVoiceModel(8, 4, clap_clap_4, fram_num_clap_clap_4);
+    rec.addVoiceModel(8, 5, clap_clap_5, fram_num_clap_clap_5);
+    
+    Serial.println("Loading demo mode commands...");
+    rec.addVoiceModel(9, 0, jarvis_demo_mode_0, fram_num_jarvis_demo_mode_0);
+    rec.addVoiceModel(9, 1, jarvis_demo_mode_1, fram_num_jarvis_demo_mode_1);
+    rec.addVoiceModel(9, 2, jarvis_demo_mode_2, fram_num_jarvis_demo_mode_2);
+    rec.addVoiceModel(9, 3, jarvis_demo_mode_3, fram_num_jarvis_demo_mode_3);
+    rec.addVoiceModel(9, 4, jarvis_demo_mode_4, fram_num_jarvis_demo_mode_4);
+    rec.addVoiceModel(9, 5, jarvis_demo_mode_5, fram_num_jarvis_demo_mode_5);
+    
     Serial.println("All voice models loaded successfully");
     
      // Initialize WiFi module
